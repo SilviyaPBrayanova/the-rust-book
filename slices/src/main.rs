@@ -22,6 +22,17 @@ fn main() {
 
     println!("{}", first_word_slice_slice("s: &str"));
     println!("{}", first_word_slice_slice(&String::from("s: &str")));
+
+    println!("Second word is {}", second_word(&String::from("What is the second word here?")));
+
+    let sentence = String::from("This is some long sentence");
+    let first_word = &sentence[0..4];
+    let second_word = &sentence[5..7]; 
+    println!("First and second word are {} and {}", first_word, second_word);   
+
+    let arr = [1, 2, 3, 4, 5];
+    let all_sls = &arr[1..3];
+    assert_eq!(all_sls, &[2,3]);
 }
 
 fn first_word( s: &String) -> usize{
@@ -54,3 +65,22 @@ fn first_word_slice_slice(s: &str) -> &str {
     }
     s // same as &s[..]
 } 
+
+fn second_word(s: &str) -> &str{
+    let bytes = s.as_bytes();
+    let mut count = 0;
+    let mut start = 0;
+    let mut end = s.len();
+    for (pos, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            if count == 0 {
+                start = pos;
+                count += 1;
+            } else if count == 1{
+                end = pos;
+                break;
+            }
+        }
+    }
+    &s[start..end]
+}
