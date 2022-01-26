@@ -1,3 +1,5 @@
+use std::any::type_name;
+
 fn main() {
     println!("{}",first_word(&String::from("Hello, world!")));
 
@@ -33,6 +35,16 @@ fn main() {
     let arr = [1, 2, 3, 4, 5];
     let all_sls = &arr[1..3];
     assert_eq!(all_sls, &[2,3]);
+
+    // Now the fun part ;)
+    let s = "S String";
+    let s1 = &s;
+    let s2 = &s1;
+    println!("{}", type_of(s));
+    println!("{}", type_of(s1));
+    println!("{}", type_of(s2));
+    println!("s = {}, &s = {}, &&s = {}", s, s1, s2);
+    
 }
 
 fn first_word( s: &String) -> usize{
@@ -83,4 +95,8 @@ fn second_word(s: &str) -> &str{
         }
     }
     &s[start..end]
+}
+
+ fn type_of<T> (_: T) -> &'static str {
+    type_name::<T>()
 }
